@@ -1,0 +1,63 @@
+# Build results
+bin/
+obj/
+out/
+
+# Visual Studio / Rider / VS Code files
+.vs/
+*.user
+*.suo
+*.sln.docstates
+*.userosscache
+*.ide
+.vscode/
+
+# NuGet
+*.nupkg
+packages/
+.nuget/
+*.snupkg
+
+# Rider
+.idea/
+
+# ASP.NET / EF Core / web
+wwwroot/lib/
+
+# Logs
+*.log
+
+# Database / Local files
+*.mdf
+*.ldf
+*.sqlite
+*.db
+
+# Publish output
+publish/
+*.Publish.xml
+
+# Resharper
+_ReSharper*/
+*.DotSettings.user
+
+# Mac / Linux
+.DS_Store
+*.swp
+*.swo
+
+# Temporary files
+*.tmp
+*.bak
+*.old
+
+# Dotnet Tool directories
+.tools/
+
+
+# Environment / Secrets
+.env
+.env.*
+appsettings.json
+appsettings.*.json
+secrets.json
