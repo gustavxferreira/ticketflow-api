@@ -22,6 +22,7 @@ namespace TicketFlowApi.Data
             modelBuilder.HasPostgresEnum<Step>();
 
             base.OnModelCreating(modelBuilder);
+            
         }
     }
 }

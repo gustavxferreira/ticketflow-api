@@ -17,13 +17,17 @@ public class CalledService : ICalledService
     // public async Task<bool> ValidateCategoryAsync(int categoryId)
     // {
     //     return await _context.Categories.AnyAsync(c => c.Id == categoryId);
+    // }    // public async Task<bool> ValidateCategoryAsync(int categoryId)
+    // {
+    //     return await _context.Categories.AnyAsync(c => c.Id == categoryId);
     // }
+
 
     public async Task CreateCalledAsync(CalledCreateDTO dto)
     {
         var called = new Called
         {
-            UserId = 1,
+            UserEmail = dto.UserEmail,
             Subject = dto.Subject,
             Description = dto.Description,
             CallMetadata = new CallMetadata
@@ -35,7 +39,7 @@ public class CalledService : ICalledService
                 EvidencePath = dto.EvidencePath,
             }
         };
-
+        
         _context.Calleds.Add(called);
         await _context.SaveChangesAsync();
     }

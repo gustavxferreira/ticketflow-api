@@ -196,7 +196,11 @@ namespace TicketFlowApi.Migrations
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("UserId")
+                    b.Property<string>("UserEmail")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int?>("UserId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -338,9 +342,7 @@ namespace TicketFlowApi.Migrations
                 {
                     b.HasOne("TicketFlowApi.Models.User", null)
                         .WithMany("Calleds")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("TicketFlowApi.Models.LogsCalled", b =>

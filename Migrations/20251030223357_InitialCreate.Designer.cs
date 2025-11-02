@@ -12,7 +12,7 @@ using TicketFlowApi.Data;
 namespace TicketFlowApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251019185104_InitialCreate")]
+    [Migration("20251030223357_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -94,7 +94,7 @@ namespace TicketFlowApi.Migrations
                     b.Property<int?>("AssignedTo")
                         .HasColumnType("integer");
 
-                    b.Property<int>("AssignedUserId")
+                    b.Property<int?>("AssignedUserId")
                         .HasColumnType("integer");
 
                     b.Property<int>("CalledId")
@@ -109,18 +109,16 @@ namespace TicketFlowApi.Migrations
                     b.Property<DateTime?>("DateClosed")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime?>("DateOpen")
+                    b.Property<DateTime>("DateOpen")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("EvidencePath")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("Priority")
                         .HasColumnType("integer");
 
                     b.Property<string>("ReasonForClosing")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("Step")
@@ -129,7 +127,7 @@ namespace TicketFlowApi.Migrations
                     b.Property<int>("SubcategoryId")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
@@ -163,7 +161,6 @@ namespace TicketFlowApi.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
@@ -193,17 +190,20 @@ namespace TicketFlowApi.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("EvidencePath")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Subject")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("UserId")
+                    b.Property<string>("UserEmail")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int?>("UserId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -233,7 +233,7 @@ namespace TicketFlowApi.Migrations
                     b.Property<int>("MovedTo")
                         .HasColumnType("integer");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -299,9 +299,7 @@ namespace TicketFlowApi.Migrations
 
                     b.HasOne("TicketFlowApi.Models.User", "AssignedUser")
                         .WithMany("AssignedCalls")
-                        .HasForeignKey("AssignedUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AssignedUserId");
 
                     b.HasOne("TicketFlowApi.Models.Called", "Called")
                         .WithOne("CallMetadata")
@@ -345,22 +343,16 @@ namespace TicketFlowApi.Migrations
 
             modelBuilder.Entity("TicketFlowApi.Models.Called", b =>
                 {
-                    b.HasOne("TicketFlowApi.Models.User", "User")
+                    b.HasOne("TicketFlowApi.Models.User", null)
                         .WithMany("Calleds")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("TicketFlowApi.Models.LogsCalled", b =>
                 {
                     b.HasOne("TicketFlowApi.Models.User", "User")
                         .WithMany("Logs")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });
@@ -377,8 +369,7 @@ namespace TicketFlowApi.Migrations
 
             modelBuilder.Entity("TicketFlowApi.Models.Called", b =>
                 {
-                    b.Navigation("CallMetadata")
-                        .IsRequired();
+                    b.Navigation("CallMetadata");
                 });
 
             modelBuilder.Entity("TicketFlowApi.Models.User", b =>

@@ -77,12 +77,13 @@ namespace TicketFlowApi.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    UserEmail = table.Column<string>(type: "text", nullable: false),
                     Subject = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
-                    EvidencePath = table.Column<string>(type: "text", nullable: false),
+                    EvidencePath = table.Column<string>(type: "text", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    UserId = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -91,8 +92,7 @@ namespace TicketFlowApi.Migrations
                         name: "FK_Calleds_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -104,7 +104,7 @@ namespace TicketFlowApi.Migrations
                     MovedFrom = table.Column<int>(type: "integer", nullable: false),
                     MovedTo = table.Column<int>(type: "integer", nullable: false),
                     ByUser = table.Column<int>(type: "integer", nullable: false),
-                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    UserId = table.Column<int>(type: "integer", nullable: true),
                     Moment = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
@@ -114,8 +114,7 @@ namespace TicketFlowApi.Migrations
                         name: "FK_LogsCalled_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -126,7 +125,7 @@ namespace TicketFlowApi.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     CategoryId = table.Column<int>(type: "integer", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
@@ -150,16 +149,16 @@ namespace TicketFlowApi.Migrations
                     AreaId = table.Column<int>(type: "integer", nullable: false),
                     CategoryId = table.Column<int>(type: "integer", nullable: false),
                     SubcategoryId = table.Column<int>(type: "integer", nullable: false),
-                    ReasonForClosing = table.Column<string>(type: "text", nullable: false),
-                    EvidencePath = table.Column<string>(type: "text", nullable: false),
+                    ReasonForClosing = table.Column<string>(type: "text", nullable: true),
+                    EvidencePath = table.Column<string>(type: "text", nullable: true),
                     Step = table.Column<int>(type: "integer", nullable: false),
                     Priority = table.Column<int>(type: "integer", nullable: false),
                     AssignedTo = table.Column<int>(type: "integer", nullable: true),
-                    AssignedUserId = table.Column<int>(type: "integer", nullable: false),
-                    DateOpen = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    AssignedUserId = table.Column<int>(type: "integer", nullable: true),
+                    DateOpen = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     DateClosed = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -192,8 +191,7 @@ namespace TicketFlowApi.Migrations
                         name: "FK_CallMetadata_Users_AssignedUserId",
                         column: x => x.AssignedUserId,
                         principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
