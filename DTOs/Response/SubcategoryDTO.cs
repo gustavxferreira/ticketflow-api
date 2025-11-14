@@ -1,4 +1,5 @@
 namespace TicketFlowApi.DTOs.Response;
+
 public class SubcategoryDTO
 {
     public int Id { get; set; }

@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using TicketFlowApi.DTOs;
 using TicketFlowApi.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using TicketFlowApi.DTOs.Response;
 
 namespace TicketFlowApi.Controllers;
 
@@ -12,31 +13,45 @@ public class CalledController : ControllerBase
 {
     private readonly ILogger<CalledController> _logger;
     private readonly ICalledService _calledService;
+    private readonly IUserService _userService;
 
-    public CalledController(ILogger<CalledController> logger, ICalledService calledService)
+    public CalledController(ILogger<CalledController> logger, ICalledService calledService, IUserService userService)
     {
         _logger = logger;
         _calledService = calledService;
+        _userService = userService;
     }
 
-    [HttpGet("chamados")]
-    public String CalledList()
-    {
-        return "listar chamados";
-    }
-
-    [AllowAnonymous]
     [HttpPost("chamados")]
     public async Task<IActionResult> CreateCalled([FromBody] CalledCreateDTO dto)
     {
-        await _calledService.CreateCalledAsync(dto);
+        int id = await _calledService.CreateCalledAsync(dto);
 
-        return Created("", new { message = "Chamado criado com sucesso" });
+        return Created("", new { message = "Chamado criado com sucesso", id = id });
     }
 
-    [HttpGet("chamado/{id}")]
-    public string GetCalledById(int id)
+    [HttpGet("chamados/{id}")]
+    public async Task<IActionResult> GetCalledById(int id)
     {
-        return $"Chamado com ID: {id}";
+        int userId = _userService.GetAuthId();
+
+        var called = await _calledService.CalledById(id, userId);
+
+        if (called == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(called);
+    }
+
+    [HttpGet("meus-chamados")]
+    public async Task<List<CalledsList>> Calleds()
+    {
+        int userId = _userService.GetAuthId();
+
+        List<CalledsList> calleds = await _calledService.GetMyCalleds(userId);
+
+        return calleds;
     }
 }

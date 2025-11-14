@@ -8,11 +8,13 @@ namespace TicketFlowApi.Services;
 
 public class CategoriesService : ICategoriesService
 {
+    private readonly IDbContextFactory<AppDbContext> _contextFactory;
     private readonly AppDbContext _context;
-
-    public CategoriesService(AppDbContext context)
+     
+    public CategoriesService(IDbContextFactory<AppDbContext> contextFactory)
     {
-        _context = context;
+        _contextFactory = contextFactory;
+        _context = _contextFactory.CreateDbContext();
     }
 
     public async Task<List<AreaDTO>> GetAreasWithCategoriesAsync()
@@ -28,7 +30,6 @@ public class CategoriesService : ICategoriesService
                         Id = c.Id,
                         Name = c.Name,
                         Description = c.Description,
-                        // CreatedAt = c.CreatedAt,
                         Subcategories = c.Subcategories != null
                             ? c.Subcategories.Select(s => new SubcategoryDTO
                             {

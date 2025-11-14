@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 using TicketFlowApi.Enums;
 
 public class CalledCreateDTO
-{
+{   
     [JsonPropertyName("user_email")]
     public string UserEmail { get; set; } = string.Empty;
 

@@ -21,7 +21,6 @@ public class CategoriesController : ControllerBase
         _categoriesService = categoriesService;
     }
 
-    [AllowAnonymous]
     [HttpGet("categorias")]
     public async Task<ActionResult<List<AreaDTO>>> GetCategories()
     {
